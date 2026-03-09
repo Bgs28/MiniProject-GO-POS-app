@@ -11,6 +11,9 @@ func RegisterRoutes(db *sql.DB) {
 
 	ProductHandler := handler.NewProductHandler(db)
 
+	transactionHandler := handler.NewTransactionHandler(db)
+
 	http.HandleFunc("/users", UserHandler.HandleUsers)
 	http.HandleFunc("/products", ProductHandler.HandleProduct)
+	http.HandleFunc("/transaction", transactionHandler.CreateTransaction)
 }
