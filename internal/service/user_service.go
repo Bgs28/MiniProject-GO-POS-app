@@ -32,6 +32,22 @@ func (s *UserService) CreateUsers(user model.User) error {
 }
 
 func (s *UserService) UpdateUser(user model.User) error{
+	
+	// hashed password if update
+	if user.Password != "" {
+
+		hashedPassword, err := bcrypt.GenerateFromPassword(
+			[]byte(user.Password),
+			bcrypt.DefaultCost,
+		)
+
+		if err != nil {
+			return err
+		}
+
+		user.Password = string(hashedPassword)
+	}
+	
 	return s.Repo.UpdateUser(user)
 }
 

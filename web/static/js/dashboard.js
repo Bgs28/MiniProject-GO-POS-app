@@ -1,6 +1,11 @@
 async function loadDashboard() {
   const token = localStorage.getItem("token");
 
+  // if token unavailable
+  if (!token) {
+    window.location.href = "/login-page";
+  }
+
   const response = await fetch("/dashboard", {
     headers: {
       Authorization: "Bearer " + token,
@@ -15,3 +20,12 @@ async function loadDashboard() {
 }
 
 loadDashboard();
+
+// logout
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("btnLogout").addEventListener("click", function () {
+    localStorage.removeItem("token");
+
+    window.location.href = "/login-page";
+  });
+});

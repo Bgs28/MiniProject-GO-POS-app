@@ -18,7 +18,13 @@ func main() {
 	defer db.Close()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
-		fmt.Fprintln(w, "POS System Running")
+		
+		if r.URL.Path != "/"{
+			http.NotFound(w,r)
+			return
+		}
+		
+		w.Write([]byte("POS System Running"))
 	})
 
 	routes.RegisterRoutes(db)

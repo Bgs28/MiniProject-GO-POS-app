@@ -5,6 +5,11 @@ let cart = [];
 async function loadProducts() {
   const token = localStorage.getItem("token");
 
+  if (!token) {
+    alert("Please login first");
+    window.location.href = "/login-page";
+  }
+
   const res = await fetch("/products", {
     headers: {
       Authorization: "Bearer " + token,

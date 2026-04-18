@@ -13,6 +13,7 @@ type TransactionService struct {
 	Repo *repository.TransactionRepository
 }
 
+// create transaction service
 func (s *TransactionService) CreateTransaction(UserID int, items []model.TransactionItem)error{
 	tx, err := s.DB.Begin()
 	if err != nil {
@@ -23,6 +24,7 @@ func (s *TransactionService) CreateTransaction(UserID int, items []model.Transac
 
 	// count subtotal/item
 	for i := range items {
+
 		product, err := s.Repo.GetProductByID(items[i].ProductID)
 		if err != nil {
 			tx.Rollback()
@@ -75,4 +77,64 @@ func (s *TransactionService) CreateTransaction(UserID int, items []model.Transac
 	}
 
 	return tx.Commit()
+}
+
+
+// get detail transaction service
+func (s *TransactionService) GetTransactionDetail(id int) (*model.TransactionDetail, error) {
+
+	transaction, err := s.Repo.GetTransactionByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	items, err := s.Repo.GetTransactionItems(id)
+	if err != nil {
+		return nil, err
+	}
+
+	result := model.TransactionDetail{
+		ID: transaction.ID,
+		InvoiceNumber: transaction.InvoiceNumber,
+		UserID: transaction.UserID,
+		TotalPrice: transaction.TotalPrice,
+		CreatedAt: transaction.CreatedAt,
+		Items: items,
+	}
+
+	return &result, nil
+}
+
+// get all transaction service
+func (s *TransactionService) GetAllTransactions() ([]model.Transaction, error) {
+
+	transactions, err := s.Repo.GetAllTransactions()
+	if err != nil {
+		return nil, err
+	}
+
+	return transactions, nil
+}
+
+// get sales report service
+func (s *TransactionService) GetSalesReport() (model.SalesReport, error){
+	report, err := s.Repo.GetSalesReport()
+
+	if err != nil {
+		return report, err
+	}
+
+	return report, nil
+}
+
+// dashboard stats service
+
+func (s *TransactionService) GetDashboardStats() (model.DashboardStats, error) {
+	stats, err := s.Repo.GetDashboardStats()
+
+	if err != nil {
+		return stats, err
+	}
+
+	return stats, nil
 }

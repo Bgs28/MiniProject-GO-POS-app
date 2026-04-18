@@ -11,41 +11,84 @@
   </head>
 
   <body>
-    <div class="container mt-4">
-      <h2>POS KASIR</h2>
-      <div class="row mt-4">
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard-page">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/pos-page">POS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/product-page">Product</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <button id="btnLogout" class="btn btn-danger me-2">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container mt-5">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold">POS KASIR</h2>
+      </div>
+
+      <div class="row g-4">
+        <!-- Products Section -->
         <div class="col-md-4">
-          <h5>Products</h5>
-          <table class="table" id="productTable">
-            <thead>
-              <tr>
-                <td>Product</td>
-                <td>Price</td>
-                <td>Stock</td>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+          <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Products</h5>
+            </div>
+            <div class="card-body">
+              <table class="table table-striped" id="productTable">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <div class="col-md-6">
-          <h5>Cart</h5>
-          <table class="table" id="cartTable">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-          <h4>Total: <span id="total">0</span></h4>
-          <button class="btn btn-succes" onclick="checkout()">Checkout</button>
+        <!-- Cart Section -->
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">Cart</h5>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered" id="cartTable">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <div
+                class="d-flex justify-content-between align-items-center mt-3"
+              >
+                <h4 class="fw-bold">Total: <span id="total">0</span></h4>
+                <button class="btn btn-success" onclick="checkout()">
+                  Checkout
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
     <script src="/static/js/pos.js"></script>
+    <script src="/static/js/dashboard.js"></script>
   </body>
 </html>

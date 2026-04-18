@@ -6,4 +6,5 @@ type Transaction struct {
 	UserID        int               `json:"user_id"`
 	TotalPrice    int               `json:"total_price"`
 	Items         []TransactionItem `json:"items"`
+	CreatedAt     string            `json:"created_at"`
 }

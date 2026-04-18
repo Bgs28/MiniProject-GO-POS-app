@@ -9,37 +9,59 @@
   </head>
 
   <body>
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+          <li class="nav-item">
+            <a class="nav-link active" href="/dashboard-page">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pos-page">POS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/product-page">Product</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <button id="btnLogout" class="btn btn-danger me-2">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div class="container mt-5">
-      <button id="btnLogout">Logout</button>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Dashboard</h2>
+      </div>
 
-      <h2>Dashboard</h2>
-      <a href="/pos-page">POS</a>
-
-      <div class="row mt-4">
+      <div class="row g-4">
         <div class="col-md-4">
-          <div class="card p-3">
-            <h5>Total Products</h5>
-            <h3 id="products"></h3>
+          <div class="card shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title">Total Products</h5>
+              <h3 id="products" class="text-primary">0</h3>
+            </div>
           </div>
         </div>
 
         <div class="col-md-4">
-          <div class="card p-3">
-            <h5>Total Transactions</h5>
-            <h3 id="transactions"></h3>
+          <div class="card shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title">Total Transactions</h5>
+              <h3 id="transactions" class="text-success">0</h3>
+            </div>
           </div>
         </div>
 
         <div class="col-md-4">
-          <div class="card p-3">
-            <h5>Today Sales</h5>
-            <h3 id="sales"></h3>
+          <div class="card shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title">Today Sales</h5>
+              <h3 id="sales" class="text-warning">0</h3>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <script src="/static/js/dashboard.js"></script>
-    <script lang="javascript"></script>
   </body>
+  <script src="static/js/dashboard.js"></script>
 </html>
