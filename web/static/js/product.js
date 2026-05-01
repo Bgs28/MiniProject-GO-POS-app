@@ -1,36 +1,48 @@
 async function loadProducts() {
   const token = localStorage.getItem("token");
   if (!token) {
-    window.location.href("/login-page");
+    window.location.href = "/login-page";
+    return;
   }
 
-  const res = await fetch("/product-page", {
+  const res = await fetch("/products", {
     headers: {
       Authorization: "Bearer " + token,
     },
   });
 
+  if (!res.ok) {
+    console.error("Gagal fetch products, status:", res.status);
+    return;
+  }
+
   const products = await res.json();
+  console.log("Jumlah produk:", products.length);
 
   const tbody = document.querySelector("#productTable tbody");
+  tbody.innerHTML = "";
 
   products.forEach((p) => {
+    console.log("Render produk:", p.name); // cek apakah forEach jalan
     const row = `
-        <tr>
+      <tr>
         <td>${p.name}</td>
         <td>${p.price}</td>
         <td>${p.stock}</td>
         <td>
-        <button class="btn btn-warning btn-sm" onclick="editProduct(${p.id}, ${p.name}, ${p.price}, ${p.stock})">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Delete</button>
+          <button class="btn btn-warning btn-sm"
+          data-id = "${p.id}"
+          data-name ="${p.name}"
+          data-price ="${p.price}"
+          data-stock ="${p.stock}"
+          onclick="editProduct(this)">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Delete</button>
         </td>
-        </tr>
-        `;
-
+      </tr>
+    `;
     tbody.innerHTML += row;
   });
 }
-
 function openAddForm() {
   document.getElementById("modalTitle").innerText = "Add Product";
 
@@ -42,10 +54,15 @@ function openAddForm() {
   document.getElementById("productModal").style.display = "block";
 }
 
-function editProduct(id, name, price, stock) {
+function editProduct(btn) {
   document.getElementById("modalTitle").innerText = "Edit Product";
 
-  document.getElementById("ProductId").value = id;
+  const id = btn.getAttribute("data-id");
+  const name = btn.getAttribute("data-name");
+  const price = btn.getAttribute("data-price");
+  const stock = btn.getAttribute("data-stock");
+
+  document.getElementById("productId").value = id;
   document.getElementById("name").value = name;
   document.getElementById("price").value = price;
   document.getElementById("stock").value = stock;
@@ -63,28 +80,29 @@ async function saveProduct() {
 
   const payLoad = {
     name: name,
-    price: price,
-    stock: stock,
+    price: parseInt(price),
+    stock: parseInt(stock),
   };
 
   if (id) {
-    // UPDATE
-    await fetch("/products/" + id, {
+    await fetch("/products?id=" + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
+      alert: alert("Data Updated"),
       body: JSON.stringify(payLoad),
     });
   } else {
-    //   CREATE
-    await fetch("/products/" + id, {
+    // CREATE
+    await fetch("/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
+      alert: alert("data added"),
       body: JSON.stringify(payLoad),
     });
   }
@@ -95,13 +113,14 @@ async function saveProduct() {
 async function deleteProduct(id) {
   const token = localStorage.getItem("token");
 
-  await fetch("/products/" + id, {
+  await fetch("/products?id=" + id, {
     method: "DELETE",
     headers: {
       Authorization: "Bearer " + token,
     },
   });
 
+  alert("Data deleted");
   loadProducts();
 }
 
